@@ -1,8 +1,4 @@
 # Workshop_pioneras
-A profile for Ruby on Rails workshop
-
-
-# Empezemos
 
 Despues de haber realizado la instalación, vamos a crear una nueva aplicación nombrada  *Workshop_pioneras*
 
