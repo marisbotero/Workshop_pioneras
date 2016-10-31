@@ -30,7 +30,7 @@ Ahora abre la carpeta foodie en tu editor de texto, revisemos algunas de las car
 | Gemfile/| Archivo con las Gemas de la aplicación, cada vez que se modifique ejecutamos ```$bundle install ```  |
 
 
-##Landing Page
+##Welcome Page
 
 Para la landing necesitamos como mínimo un controlador y una vista,Para generarlos ejecuta:
 ```
