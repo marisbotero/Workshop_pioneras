@@ -4,7 +4,7 @@ A profile for Ruby on Rails workshop
 
 # Empezemos
 
-Despues de haber realizado la instalación, vamos a crear una nueva aplicación nombrada  *foodie*
+Despues de haber realizado la instalación, vamos a crear una nueva aplicación nombrada  *Workshop_pioneras*
 
 ##Crear app
 Abre la terminal y ubica la carpeta donde deseas guardar la app, para navegar entre carpetas en la terminal usamos los comandos ```$ cd nombredelacarpeta``` para entrar y ```$ cd ..``` para salir. Ademas con ```$ ls```  o ```$ dir``` puedes ver lo que hay dentro de la capeta en la que te encuentras.
