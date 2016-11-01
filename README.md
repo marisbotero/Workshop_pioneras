@@ -174,4 +174,17 @@ Habilidades:
     <% end %>
   </ul>
   ```
+Necesitamos indicarle al controlador del perfil que acepte los atributos anidados del model avance(advance).
+
+en app/controllers/profiles_controller.rb busca el método *profile_params* y agregale el parametro *advances_attributes*
+  ```Ruby
+    def profile_params
+      params.require(:profile).permit(:name, advances_attributes:[ :id, :skill_id, :percentage, :description, :_destroy ])
+    end
+  ```
+ en el mismo archivo al método *new* y *edit* agregale esta linea
+   ```Ruby
+   5.times { @profile.advances.build}
+   ```
+   
  
