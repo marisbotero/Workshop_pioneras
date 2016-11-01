@@ -119,4 +119,9 @@ class Skill < ActiveRecord::Base
 end
 ```
 
+Bueno, ahora que ya tenemos una idea de la unión de modelos vamos a seguir con nuestro proyecto, creando las funcionalidades de los modelos.Vamos dentro de nuestro proyecto a config -> routes.rb 
+
+
+
+
 
