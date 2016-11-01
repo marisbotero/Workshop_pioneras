@@ -131,6 +131,7 @@ Rails.application.routes.draw do
   resources :profiles
 end
 ```
+Ahora podemos abrir la consola y escribir el siguiente comando:
 
 
 
