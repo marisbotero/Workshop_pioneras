@@ -67,7 +67,7 @@ Ahora debemos crear la tabla:
 ```
 $rake db:migrate
 ```
-Creamos de la misma maneras los scaffold para el perfil y las habilidades:
+Creamos de la misma maneras los scaffolds para el perfil y las habilidades:
 ```
 $rails g scaffold profile name:string
 ```
@@ -80,4 +80,16 @@ Creamos las tablas:
 $rake db:migrate
 ```
 
-##
+##  Relaciones en los modelos
+
+Relaciones de 1 a 1
+
+Estas se dan cuando un registro está ligado a otro. Por ejemplo, nosotros podemos tener un modelo llamado Usuario y un modelo llamado Perfil. Cada usuario tendrá un perfi y este le pertenecerá a un usuario.
+
+Relaciones de 1 a muchos
+
+Son las relaciones más comunes. En este caso un registro puede tener relación con otros, pero cada uno de esos otros le pertenecerán sólo a ese registro. Por ejemplo, siguiendo con el modelo Usuario y un modelo Publicacion, cada usuario puede tener varias publicaciones, pero cada publicación le pertenecerá a un usuario.
+
+Relaciones de muchos a muchos
+
+Estas relaciones se dan cuando un registro puede tener relaciones con otros registros, pero a su vez estos registros además de tener relación con el primero pueden estar vinculados con otros. Por ejemplo, suponiendo que seguimos con el modelo Usuario, nosotros queremos saber qué habilidades tiene a cada usuario, así que también tendremos un modelo habilidades. Entonces en ese caso cada a un usuario le pueden gustar varias habilidades, pero estas a su vez también las tendran otros usuarios.
