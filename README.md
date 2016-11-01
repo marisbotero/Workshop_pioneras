@@ -135,6 +135,9 @@ Ahora podemos abrir la consola y escribir el siguiente comando:
 ```
 $rake routes
 ```
+
+Las rutas se ven de la siguiente manera:
+
 ```
 Prefix Verb   URI Pattern                  Controller#Action
        areas GET    /areas(.:format)             areas#index
@@ -155,3 +158,5 @@ edit_profile GET    /profiles/:id/edit(.:format) profiles#edit
              DELETE /profiles/:id(.:format)      profiles#destroy
 
 ```
+
+
