@@ -18,6 +18,14 @@
         <td><%= link_to 'Edit', edit_profile_path(profile) %></td>
         <td><%= link_to 'Destroy', profile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      <tr>
+        <td style="width:500px;">
+          <%= line_chart  profile.skills.uniq.map { |skill|
+          {name: skill.name, data: skill.advances.where(profile:profile).group(:created_at).sum("percentage") }
+          } %>
+
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>
