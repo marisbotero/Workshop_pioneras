@@ -96,26 +96,29 @@ Estas relaciones se dan cuando un registro puede tener relaciones con otros regi
 
 Para nuestro taller los modelos con sus relaciones quedarian así:
 
-```
-class Area < ActiveRecord::Base
-  has_many :skills
-  has_many :profiles, through: :skills
-end
-
-```
-
-```
+en app/models/profile.rb copia
+```Ruby
 class Profile < ActiveRecord::Base
-  has_many :skills
-  has_many :areas, through: :skills
-  accepts_nested_attributes_for :skills, allow_destroy: true,reject_if: lambda {|attributes| attributes['area_id'].blank?}
+  #asociaciones
+  has_many :advances
+  has_many :skills, through: :advances #tiene muchas habilidades a través del modelo advances
 end
 
 ```
-```
+en app/models/skill.rb
+```Ruby
 class Skill < ActiveRecord::Base
-  belongs_to :profile
-  belongs_to :area
+  #asociaciones
+  has_many :advances
+  has_many :profiles, through: :advances #tiene muchas perfiles a través del modelo advances
+end
+```
+en app/models/advance.rb ya tenemos esto , puesto que el references lo genera:
+```Ruby
+class Advance < ActiveRecord::Base
+  #asociaciones
+  belongs_to :profile #el registro de este modelo pertence a un perfil
+  belongs_to :skill #pertence a una habilidad
 end
 ```
 ##  Recursos de rutas
@@ -125,50 +128,50 @@ Bueno, ahora que ya tenemos una idea de la unión de modelos vamos a seguir con 
 
 Un resource o recurso es una colección predefinida de todas las posibles funciones que por defecto que posee un controlador. Es decir, cuando utilizamos un scaffold para crear un controlador, modelo y vistas relacionadas a un recurso tal como "usuario"; este creará dentro del controlador todas las funciones conocidas como CRUD, y el resource combina y genera todas las rutas necesarias para poder acceder a dichos recursos. 
 
-```
+en config/routes.rb
+```Ruby
 Rails.application.routes.draw do
-  resources :areas
+  resources :skills
   resources :profiles
 end
 ```
-Ahora podemos abrir la consola y escribir el siguiente comando:
+Ahora podemos abrir la consola y escribir el siguiente comando para visualizar la estructura de las rutas:
 ```
 $rake routes
 ```
 
-Las rutas se ven de la siguiente manera:
+##Formulario del avance en habilidades anidado en el perfil
 
-```
-Prefix Verb   URI Pattern                  Controller#Action
-       areas GET    /areas(.:format)             areas#index
-             POST   /areas(.:format)             areas#create
-    new_area GET    /areas/new(.:format)         areas#new
-   edit_area GET    /areas/:id/edit(.:format)    areas#edit
-        area GET    /areas/:id(.:format)         areas#show
-             PATCH  /areas/:id(.:format)         areas#update
-             PUT    /areas/:id(.:format)         areas#update
-             DELETE /areas/:id(.:format)         areas#destroy
-    profiles GET    /profiles(.:format)          profiles#index
-             POST   /profiles(.:format)          profiles#create
- new_profile GET    /profiles/new(.:format)      profiles#new
-edit_profile GET    /profiles/:id/edit(.:format) profiles#edit
-     profile GET    /profiles/:id(.:format)      profiles#show
-             PATCH  /profiles/:id(.:format)      profiles#update
-             PUT    /profiles/:id(.:format)      profiles#update
-             DELETE /profiles/:id(.:format)      profiles#destroy
-
+para permitir que mi modelo profile reciba atributos de mi modelo skill en app/models/profile.rb agregamos
+```Ruby
+  #permitir formularios anidados para que cuando cree o actualice un perfil  tambien puede agregar avances en habilidades
+  #allow_destroy me permite eliminar registrps
+  #reject_if: lambda  me permite rechazar o no agregar registros que vengan vacios
+  accepts_nested_attributes_for :advances, allow_destroy: true,reject_if: lambda {|attributes| attributes['skill_id'].blank?}
 ```
 
-Vistas
+para pintar el formulario anidado en app/views/profiles/\_form.html.erb   antes del 
+```Html
+<div class="actions">  
+```
+copiamos:
+```Ruby
+Habilidades:
+  <ul>
+    <%= f.fields_for :advances do |advance_form| %>
+     <li>
+       <%= advance_form.check_box :_destroy%>
 
-Nos ubicamos en el directorio de las vistas del controlador: app/views/profiles/.La primera vista la llamaremos _form.html.erb y este contendrá el formulario.
+       <%= advance_form.label :skill_id  %>
+       <%= advance_form.select :skill_id, Skill.all.collect { |habilidad| [ habilidad.name, habilidad.id ] }, include_blank: true  %>
 
-Luego tenemos una vista llamada new.html.erb que contiene el formulario de la siguiente forma:
+       <%= advance_form.label :percentage  %>
+       <%= advance_form.text_field :percentage %>
 
-<h1>New Profile</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', profiles_path %>
-
-Por último la vista principal que lista todas los perfiles creados: index.html.erb
+       <%= advance_form.label :description  %>
+       <%= advance_form.text_field :description %>
+     </li>
+    <% end %>
+  </ul>
+  ```
+ 
