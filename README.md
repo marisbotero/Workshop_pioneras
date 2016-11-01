@@ -155,11 +155,17 @@ para pintar el formulario anidado en app/views/profiles/\_form.html.erb   antes 
 <div class="actions">  
 ```
 copiamos:
-```Ruby
+```html
 Habilidades:
   <ul>
+ ```
+  ```Ruby
     <%= f.fields_for :advances do |advance_form| %>
+      ```
+      ```html
      <li>
+       ```
+        ```Ruby
        <%= advance_form.check_box :_destroy%>
 
        <%= advance_form.label :skill_id  %>
@@ -170,8 +176,14 @@ Habilidades:
 
        <%= advance_form.label :description  %>
        <%= advance_form.text_field :description %>
+       ```
+       ```html
      </li>
+        ```
+         ```Ruby
     <% end %>
+      ```
+       ```html
   </ul>
   ```
  
