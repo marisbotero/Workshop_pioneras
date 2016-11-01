@@ -256,8 +256,7 @@ en app/views/profiles/index.html.erb  antes de
 <%= link_to "Habilidades", skills_path %>
 
   ```
-  
-  ## un poquito de diseño XD
+## un poquito de diseño XD
    en app/assets/stylesheets/scaffold.scss remplaza todo 
  ```css  
    body {
