@@ -1,6 +1,6 @@
 # Workshop_pioneras
 
-Despues de haber realizado la instalación, vamos a crear una nueva aplicación nombrada  *Workshop_pioneras*
+Despues de haber realizado la instalación, vamos a crear una nueva aplicación nombrada  *workshop_pioneras*
 
 ##Crear app
 Abre la terminal y ubica la carpeta donde deseas guardar la app, para navegar entre carpetas en la terminal usamos los comandos ```$ cd nombredelacarpeta``` para entrar y ```$ cd ..``` para salir. Ademas con ```$ ls```  o ```$ dir``` puedes ver lo que hay dentro de la capeta en la que te encuentras.
@@ -8,11 +8,11 @@ Abre la terminal y ubica la carpeta donde deseas guardar la app, para navegar en
 Para crear la app de rails ejecutamos
 
 ```
-$ Workshop Pioneras
+$ rails new workshop_pioneras
 ```
 
 ```
-$ cd Workshop_pioneras
+$ cd workshop_pioneras
 ```
 Ahora abre la carpeta foodie en tu editor de texto, revisemos algunas de las carpetas de la aplicación de rails
 
@@ -57,28 +57,28 @@ por
 root 'Welcome#index'
 ```
 ##Scaffolding
-El scaffolding es una técnica que permite crear CRUD, pero en forma mucho más rápida. Abrimos nuestra consola y escribimos: 
+El scaffolding es una técnica que permite crear CRUD(Create, Read, Update, Delete) de un model, pero en forma mucho más rápida. Abrimos nuestra consola y escribimos: 
 ```
-$rails g scaffold area name:string
+$rails g scaffold Skill name:string
 ```
-Hacer esto fue como crear generar un modelo, creará las migraciones y los atributos correspondientes para al area, el nombre Pero, lo interesante de esto es que también creará por nosotros un controlador llamado areas con las acciones que venimos creando: index, show, new, create, edit, update y destroy. Osea ya tenemos todo listo para agregar, modificar, eliminar y nuestras areas.
+Hacer esto fue como crear un modelo, creará las migraciones y los atributos correspondientes al skill; el nombre Pero, lo interesante de esto es que también creará por nosotros un controlador llamado skills con las acciones: index, show, new, create, edit, update y destroy , junto con sus vistas. Osea ya tenemos todo listo para agregar, modificar, eliminar y listar-ver- nuestras habilidades(skills). Tambien nos crea assets(diseño).
 
-Ahora debemos crear la tabla:
+
+Creamos de la misma manera los scaffolds para el perfil (puedes completar los campos con la bd que ya hemos estructurado):
+```
+$rails g scaffold Profile name:string
+```
+ahora creamos un modelo donde tendremos el progreso de nuestras habilidades(skills) a través del tiempo.
+```
+$rails g model Advance profile:references skill:references percentage:integer description:string
+```
+el tipo *references* nos hace la relación de que el modelo Advance pertenece a el modelo profile y tambien al modelo skill.
+
+Cada vez que se crean migraciones, para poder visualizar la aplicación en el navegador rails nos pide que generemos esas migraciones en la BD con este comando:
 ```
 $rake db:migrate
 ```
-Creamos de la misma maneras los scaffolds para el perfil y las habilidades:
-```
-$rails g scaffold profile name:string
-```
-
-```
-$rails g scaffold skill profile_id:integer skill progress description:text area_id:integer
-```
-Creamos las tablas:
-```
-$rake db:migrate
-```
+asi creamos las tablas en la BD
 
 ##  Relaciones en los modelos
 
@@ -158,25 +158,17 @@ edit_profile GET    /profiles/:id/edit(.:format) profiles#edit
              DELETE /profiles/:id(.:format)      profiles#destroy
 
 ```
-##  Vistas
+
+Vistas
 
 Nos ubicamos en el directorio de las vistas del controlador: app/views/profiles/.La primera vista la llamaremos _form.html.erb y este contendrá el formulario.
 
-Luego tenemos una vista llamada new.html.erb que contiene el formulario de la siguiente forma: 
+Luego tenemos una vista llamada new.html.erb que contiene el formulario de la siguiente forma:
 
-```
 <h1>New Profile</h1>
 
 <%= render 'form' %>
 
 <%= link_to 'Back', profiles_path %>
 
-```
 Por último la vista principal que lista todas los perfiles creados: index.html.erb
-
-
-
-
-
-
-
