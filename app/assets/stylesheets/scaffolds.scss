@@ -19,15 +19,23 @@ pre {
 }
 
 a {
-  color: #000;
+      background-color: #76B9CF; /* Green */
+      border: none;
+      color: white !important;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 2px;
 
   &:visited {
-    color: #666;
+    color: #008CBA;
   }
 
   &:hover {
     color: #fff;
-    background-color: #000;
+    background-color: #008CBA;
   }
 }
 
@@ -70,4 +78,8 @@ div {
     font-size: 12px;
     list-style: square;
   }
+}
+h1 {
+  text-align: center !important;
+  color: rgb(270,50,50);
 }
