@@ -59,5 +59,12 @@ root 'Welcome#index'
 ##Scaffolding
 El scaffolding es una técnica que permite crear CRUD, pero en forma mucho más rápida. Abrimos nuestra consola y escribimos: 
 ```
-$rails g scaffold
+$rails g scaffold area name:string
 ```
+Hacer esto fue como crear generar un modelo, creará las migraciones y los atributos correspondientes para al area, el nombre Pero, lo interesante de esto es que también creará por nosotros un controlador llamado areas con las acciones que venimos creando: index, show, new, create, edit, update y destroy. Osea ya tenemos todo listo para agregar, modificar, eliminar y nuestras areas.
+
+Ahora debemos crear la tabla:
+```
+$rake db:migrate
+```
+##
