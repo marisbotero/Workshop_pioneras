@@ -257,5 +257,133 @@ en app/views/profiles/index.html.erb  antes de
 
   ```
   
+  ## un poquito de diseño XD
+   en app/assets/stylesheets/scaffold.scss remplaza todo 
+ ```css  
+   body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a {
+      background-color: #76B9CF; /* Green */
+      border: none;
+      color: white !important;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 2px;
+
+  &:visited {
+    color: #008CBA;
+  }
+
+  &:hover {
+    color: #fff;
+    background-color: #008CBA;
+  }
+}
+
+div {
+  &.field, &.actions {
+    margin-bottom: 10px;
+  }
+}
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff;
+  }
+
+  ul li {
+    font-size: 12px;
+    list-style: square;
+  }
+}
+h1 {
+  text-align: center !important;
+  color: rgb(270,50,50);
+}
+```
   
-  
+en app/views/profiles/index.html.erb reemplacemos la estructura por 
+```
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Profiles</h1>
+
+<%= link_to 'New Profile', new_profile_path %>
+
+<table >
+  <tbody>
+    <% @profiles.each do |profile| %>
+
+      <tr>
+        <td colspan="5"><h2><%= profile.name %></h2></td>
+
+      </tr>
+      <tr>
+        <td colspan="5" style=" width:500px;">
+          <%= line_chart  profile.skills.uniq.map { |skill|
+          {name: skill.name, data: skill.advances.where(profile:profile).group(:created_at).sum("percentage") }
+          } %>
+
+        </td>
+      </tr>
+      <tr>
+        <td><%= link_to 'Show', profile %></td>
+        <td><%= link_to 'Edit', edit_profile_path(profile) %></td>
+        <td><%= link_to 'Destroy', profile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+
+
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+```
+
