@@ -142,7 +142,8 @@ $rake routes
 
 ##Formulario del avance en habilidades anidado en el perfil :scream:
 
-Queremos que cuando creemos o editemos un perfil podamos agregar, editar o borrar al mismo tiempo el avance de nuestras habilidades.
+Sabemos que el scaffold nos creo todas las vistas agregar,editar,y mostrar de nuestros modelos perfil y habilidades ahora
+queremos que cuando creemos o editemos un perfil podamos agregar, editar o borrar al mismo tiempo el avance de nuestras habilidades.
 
 para permitir que mi modelo profile reciba atributos de mi modelo skill en app/models/profile.rb agregamos
 ```Ruby
@@ -241,3 +242,5 @@ en app/views/profiles/index.html.erb  antes de
   </td>
  </tr>
   ```
+  
+  
