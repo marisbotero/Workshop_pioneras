@@ -93,3 +93,30 @@ Son las relaciones más comunes. En este caso un registro puede tener relación 
 > - Relaciones de muchos a muchos
 
 Estas relaciones se dan cuando un registro puede tener relaciones con otros registros, pero a su vez estos registros además de tener relación con el primero pueden estar vinculados con otros. Por ejemplo, suponiendo que seguimos con el modelo Usuario, nosotros queremos saber qué habilidades tiene a cada usuario, así que también tendremos un modelo habilidades. Entonces en ese caso cada a un usuario le pueden gustar varias habilidades, pero estas a su vez también las tendran otros usuarios.
+
+Para nuestro taller los modelos con sus relaciones quedarian así:
+
+```
+class Area < ActiveRecord::Base
+  has_many :skills
+  has_many :profiles, through: :skills
+end
+
+```
+
+```
+class Profile < ActiveRecord::Base
+  has_many :skills
+  has_many :areas, through: :skills
+  accepts_nested_attributes_for :skills, allow_destroy: true,reject_if: lambda {|attributes| attributes['area_id'].blank?}
+end
+
+```
+```
+class Skill < ActiveRecord::Base
+  belongs_to :profile
+  belongs_to :area
+end
+```
+
+
