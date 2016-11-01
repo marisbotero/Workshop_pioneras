@@ -132,7 +132,31 @@ Rails.application.routes.draw do
 end
 ```
 Ahora podemos abrir la consola y escribir el siguiente comando:
+```
+$rake routes
+```
 
+Las rutas se ven de la siguiente manera:
 
+```
+Prefix Verb   URI Pattern                  Controller#Action
+       areas GET    /areas(.:format)             areas#index
+             POST   /areas(.:format)             areas#create
+    new_area GET    /areas/new(.:format)         areas#new
+   edit_area GET    /areas/:id/edit(.:format)    areas#edit
+        area GET    /areas/:id(.:format)         areas#show
+             PATCH  /areas/:id(.:format)         areas#update
+             PUT    /areas/:id(.:format)         areas#update
+             DELETE /areas/:id(.:format)         areas#destroy
+    profiles GET    /profiles(.:format)          profiles#index
+             POST   /profiles(.:format)          profiles#create
+ new_profile GET    /profiles/new(.:format)      profiles#new
+edit_profile GET    /profiles/:id/edit(.:format) profiles#edit
+     profile GET    /profiles/:id(.:format)      profiles#show
+             PATCH  /profiles/:id(.:format)      profiles#update
+             PUT    /profiles/:id(.:format)      profiles#update
+             DELETE /profiles/:id(.:format)      profiles#destroy
+
+```
 
 
