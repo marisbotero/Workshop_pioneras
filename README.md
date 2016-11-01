@@ -94,7 +94,7 @@ Son las relaciones más comunes. En este caso un registro puede tener relación 
 
 Estas relaciones se dan cuando un registro puede tener relaciones con otros registros, pero a su vez estos registros además de tener relación con el primero pueden estar vinculados con otros. Por ejemplo, suponiendo que seguimos con el modelo Usuario, nosotros queremos saber qué habilidades tiene a cada usuario, así que también tendremos un modelo habilidades. Entonces en ese caso, cada usuario puede tener varias habilidades, pero estas a su vez también las tendran otros usuarios.
 
-[http://guiasrails.es/association_basics.html](Relaciones en rails)
+[Relaciones en rails](http://guiasrails.es/association_basics.html)
 
 Para nuestro taller los modelos con sus relaciones quedarian así:
 
@@ -235,6 +235,7 @@ en app/views/profiles/index.html.erb  antes de
 <% end %>
   ```
   copiamos
+  
   ```
  <tr>
   <td style="width:500px;">
@@ -245,11 +246,12 @@ en app/views/profiles/index.html.erb  antes de
   </td>
  </tr>
   ```
-  ##links 
+## links 
   
   en nuestra home page podemos agregar los links que direccionen a los perfiles y habilidades.
+  
   app/views/welcome/index.html.erb
-   ```Ruby
+   ```
 <%= link_to "Perfiles", profiles_path%>
 <%= link_to "Habilidades", skills_path %>
 
