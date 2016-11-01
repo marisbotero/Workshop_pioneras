@@ -140,7 +140,9 @@ Ahora podemos abrir la consola y escribir el siguiente comando para visualizar l
 $rake routes
 ```
 
-##Formulario del avance en habilidades anidado en el perfil
+##Formulario del avance en habilidades anidado en el perfil :scream:
+
+Queremos que cuando creemos o editemos un perfil podamos agregar, editar o borrar al mismo tiempo el avance de nuestras habilidades.
 
 para permitir que mi modelo profile reciba atributos de mi modelo skill en app/models/profile.rb agregamos
 ```Ruby
@@ -182,9 +184,60 @@ en app/controllers/profiles_controller.rb busca el método *profile_params* y ag
       params.require(:profile).permit(:name, advances_attributes:[ :id, :skill_id, :percentage, :description, :_destroy ])
     end
   ```
- en el mismo archivo al método *new* y *edit* agregale esta linea
+ en el mismo archivo al método *new* y *edit*  agrega esta linea
    ```Ruby
    5.times { @profile.advances.build}
    ```
-   
+  
+##Gráfica :chart_with_upwards_trend: :dancer:
+Pintemos el avance en habilidades en forma de gráfica para ello utilizaremos una gema:gem:  [chartkick](http://chartkick.com/)
+
+Para agregar la gema en Gemfile.rb antes de
+```Ruby
+  group :development, :test do
+ ```
+ponemos
+ ```Ruby
+  #gema para la grafica
+   gem "chartkick"
+ ```
  
+ Despues de que agreguemos una gema en Gemfile para instalar debemos correr en consola 
+ 
+  ```
+  $ bundle install
+ ```
+en app/assets/javascripts/aplication.js agregamos
+
+  ```
+//= require chartkick
+
+  ```
+ en app/views/layouts/application.html.erb antes de
+  ```Ruby
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  ```
+  copiamos
+   ```Ruby
+ <%= javascript_include_tag "//www.google.com/jsapi" %>
+
+  ```
+ 
+ahora vamos a generar la consulta que me pinta la grafica con las instrucciones dadas por la gema, recuerda que rails utiliza un [ORM](http://programarfacil.com/blog/que-es-un-orm/) llamado active record 
+
+en app/views/profiles/index.html.erb  antes de 
+ ```Ruby 
+<% end %>
+  ```
+  copiamos
+  ```
+ <tr>
+  <td style="width:500px;">
+    <%= line_chart  profile.skills.uniq.map { |skill|
+    {name: skill.name, data: skill.advances.where(profile:profile).group(:created_at).sum("percentage") }
+    } %>
+
+  </td>
+ </tr>
+  ```
