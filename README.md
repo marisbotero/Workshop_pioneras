@@ -158,5 +158,25 @@ edit_profile GET    /profiles/:id/edit(.:format) profiles#edit
              DELETE /profiles/:id(.:format)      profiles#destroy
 
 ```
+##  Vistas
+
+Nos ubicamos en el directorio de las vistas del controlador: app/views/profiles/.La primera vista la llamaremos _form.html.erb y este contendrá el formulario.
+
+Luego tenemos una vista llamada new.html.erb que contiene el formulario de la siguiente forma: 
+
+```
+<h1>New Profile</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Back', profiles_path %>
+
+```
+Por último la vista principal que lista todas los perfiles creados: index.html.erb
+
+
+
+
+
 
 
