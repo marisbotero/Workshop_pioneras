@@ -1,6 +1,6 @@
 # Workshop_pioneras
 
-Despues de haber realizado la instalación, vamos a crear una nueva aplicación nombrada  *Workshop_pioneras*
+Despues de haber realizado la instalación, vamos a crear una nueva aplicación nombrada  *workshop_pioneras*
 
 ##Crear app
 Abre la terminal y ubica la carpeta donde deseas guardar la app, para navegar entre carpetas en la terminal usamos los comandos ```$ cd nombredelacarpeta``` para entrar y ```$ cd ..``` para salir. Ademas con ```$ ls```  o ```$ dir``` puedes ver lo que hay dentro de la capeta en la que te encuentras.
@@ -8,11 +8,11 @@ Abre la terminal y ubica la carpeta donde deseas guardar la app, para navegar en
 Para crear la app de rails ejecutamos
 
 ```
-$ Workshop Pioneras
+$ rails new workshop_pioneras
 ```
 
 ```
-$ cd Workshop_pioneras
+$ cd workshop_pioneras
 ```
 Ahora abre la carpeta foodie en tu editor de texto, revisemos algunas de las carpetas de la aplicación de rails
 
@@ -57,28 +57,28 @@ por
 root 'Welcome#index'
 ```
 ##Scaffolding
-El scaffolding es una técnica que permite crear CRUD, pero en forma mucho más rápida. Abrimos nuestra consola y escribimos: 
+El scaffolding es una técnica que permite crear CRUD(Create, Read, Update, Delete) de un model, pero en forma mucho más rápida. Abrimos nuestra consola y escribimos: 
 ```
-$rails g scaffold area name:string
+$rails g scaffold Skill name:string
 ```
-Hacer esto fue como crear generar un modelo, creará las migraciones y los atributos correspondientes para al area, el nombre Pero, lo interesante de esto es que también creará por nosotros un controlador llamado areas con las acciones que venimos creando: index, show, new, create, edit, update y destroy. Osea ya tenemos todo listo para agregar, modificar, eliminar y nuestras areas.
+Hacer esto fue como crear un modelo, creará las migraciones y los atributos correspondientes al skill; el nombre Pero, lo interesante de esto es que también creará por nosotros un controlador llamado skills con las acciones: index, show, new, create, edit, update y destroy , junto con sus vistas. Osea ya tenemos todo listo para agregar, modificar, eliminar y listar-ver- nuestras habilidades(skills). Tambien nos crea assets(diseño).
 
-Ahora debemos crear la tabla:
+
+Creamos de la misma manera los scaffolds para el perfil (puedes completar los campos con la bd que ya hemos estructurado):
+```
+$rails g scaffold Profile name:string
+```
+ahora creamos un modelo donde tendremos el progreso de nuestras habilidades(skills) a través del tiempo.
+```
+$rails g model Advance profile:references skill:references percentage:integer description:string
+```
+el tipo *references* nos hace la relación de que el modelo Advance pertenece a el modelo profile y tambien al modelo skill.
+
+Cada vez que se crean migraciones, para poder visualizar la aplicación en el navegador rails nos pide que generemos esas migraciones en la BD con este comando:
 ```
 $rake db:migrate
 ```
-Creamos de la misma maneras los scaffolds para el perfil y las habilidades:
-```
-$rails g scaffold profile name:string
-```
-
-```
-$rails g scaffold skill profile_id:integer skill progress description:text area_id:integer
-```
-Creamos las tablas:
-```
-$rake db:migrate
-```
+asi creamos las tablas en la BD
 
 ##  Relaciones en los modelos
 
@@ -92,30 +92,35 @@ Son las relaciones más comunes. En este caso un registro puede tener relación 
 
 > - Relaciones de muchos a muchos
 
-Estas relaciones se dan cuando un registro puede tener relaciones con otros registros, pero a su vez estos registros además de tener relación con el primero pueden estar vinculados con otros. Por ejemplo, suponiendo que seguimos con el modelo Usuario, nosotros queremos saber qué habilidades tiene a cada usuario, así que también tendremos un modelo habilidades. Entonces en ese caso cada a un usuario le pueden gustar varias habilidades, pero estas a su vez también las tendran otros usuarios.
+Estas relaciones se dan cuando un registro puede tener relaciones con otros registros, pero a su vez estos registros además de tener relación con el primero pueden estar vinculados con otros. Por ejemplo, suponiendo que seguimos con el modelo Usuario, nosotros queremos saber qué habilidades tiene a cada usuario, así que también tendremos un modelo habilidades. Entonces en ese caso, cada usuario puede tener varias habilidades, pero estas a su vez también las tendran otros usuarios.
+
+[Relaciones en rails](http://guiasrails.es/association_basics.html)
 
 Para nuestro taller los modelos con sus relaciones quedarian así:
 
-```
-class Area < ActiveRecord::Base
-  has_many :skills
-  has_many :profiles, through: :skills
-end
-
-```
-
-```
+en app/models/profile.rb copia
+```Ruby
 class Profile < ActiveRecord::Base
-  has_many :skills
-  has_many :areas, through: :skills
-  accepts_nested_attributes_for :skills, allow_destroy: true,reject_if: lambda {|attributes| attributes['area_id'].blank?}
+  #asociaciones
+  has_many :advances
+  has_many :skills, through: :advances #tiene muchas habilidades a través del modelo advances
 end
 
 ```
-```
+en app/models/skill.rb
+```Ruby
 class Skill < ActiveRecord::Base
-  belongs_to :profile
-  belongs_to :area
+  #asociaciones
+  has_many :advances
+  has_many :profiles, through: :advances #tiene muchas perfiles a través del modelo advances
+end
+```
+en app/models/advance.rb ya tenemos esto , puesto que el references lo genera:
+```Ruby
+class Advance < ActiveRecord::Base
+  #asociaciones
+  belongs_to :profile #el registro de este modelo pertence a un perfil
+  belongs_to :skill #pertence a una habilidad
 end
 ```
 ##  Recursos de rutas
@@ -125,38 +130,259 @@ Bueno, ahora que ya tenemos una idea de la unión de modelos vamos a seguir con 
 
 Un resource o recurso es una colección predefinida de todas las posibles funciones que por defecto que posee un controlador. Es decir, cuando utilizamos un scaffold para crear un controlador, modelo y vistas relacionadas a un recurso tal como "usuario"; este creará dentro del controlador todas las funciones conocidas como CRUD, y el resource combina y genera todas las rutas necesarias para poder acceder a dichos recursos. 
 
-```
+en config/routes.rb
+```Ruby
 Rails.application.routes.draw do
-  resources :areas
+  resources :skills
   resources :profiles
 end
 ```
-Ahora podemos abrir la consola y escribir el siguiente comando:
+Ahora podemos abrir la consola y escribir el siguiente comando para visualizar la estructura de las rutas:
 ```
 $rake routes
 ```
 
-Las rutas se ven de la siguiente manera:
+##Formulario del avance en habilidades anidado en el perfil :scream:
 
-```
-Prefix Verb   URI Pattern                  Controller#Action
-       areas GET    /areas(.:format)             areas#index
-             POST   /areas(.:format)             areas#create
-    new_area GET    /areas/new(.:format)         areas#new
-   edit_area GET    /areas/:id/edit(.:format)    areas#edit
-        area GET    /areas/:id(.:format)         areas#show
-             PATCH  /areas/:id(.:format)         areas#update
-             PUT    /areas/:id(.:format)         areas#update
-             DELETE /areas/:id(.:format)         areas#destroy
-    profiles GET    /profiles(.:format)          profiles#index
-             POST   /profiles(.:format)          profiles#create
- new_profile GET    /profiles/new(.:format)      profiles#new
-edit_profile GET    /profiles/:id/edit(.:format) profiles#edit
-     profile GET    /profiles/:id(.:format)      profiles#show
-             PATCH  /profiles/:id(.:format)      profiles#update
-             PUT    /profiles/:id(.:format)      profiles#update
-             DELETE /profiles/:id(.:format)      profiles#destroy
+Sabemos que el scaffold nos creo todas las vistas agregar,editar,y mostrar de nuestros modelos perfil y habilidades ahora
+queremos que cuando creemos o editemos un perfil podamos agregar, editar o borrar al mismo tiempo el avance de nuestras habilidades.
 
+para permitir que mi modelo profile reciba atributos de mi modelo skill en app/models/profile.rb agregamos
+```Ruby
+  #permitir formularios anidados para que cuando cree o actualice un perfil  tambien puede agregar avances en habilidades
+  #allow_destroy me permite eliminar registrps
+  #reject_if: lambda  me permite rechazar o no agregar registros que vengan vacios
+  accepts_nested_attributes_for :advances, allow_destroy: true,reject_if: lambda {|attributes| attributes['skill_id'].blank?}
 ```
 
+para pintar el formulario anidado en app/views/profiles/\_form.html.erb   antes del 
+```Html
+<div class="actions">  
+```
+copiamos:
+```html
+Habilidades:
+  <ul>
+    <%= f.fields_for :advances do |advance_form| %>
+     <li>
+       <%= advance_form.check_box :_destroy%>
+
+       <%= advance_form.label :skill_id  %>
+       <%= advance_form.select :skill_id, Skill.all.collect { |habilidad| [ habilidad.name, habilidad.id ] }, include_blank: true  %>
+
+       <%= advance_form.label :percentage  %>
+       <%= advance_form.text_field :percentage %>
+
+       <%= advance_form.label :description  %>
+       <%= advance_form.text_field :description %>
+     </li>
+    <% end %>
+  </ul>
+  ```
+Necesitamos indicarle al controlador del perfil que acepte los atributos anidados del model avance(advance).
+
+en app/controllers/profiles_controller.rb busca el método *profile_params* y agregale el parametro *advances_attributes*
+  ```Ruby
+    def profile_params
+      params.require(:profile).permit(:name, advances_attributes:[ :id, :skill_id, :percentage, :description, :_destroy ])
+    end
+  ```
+ en el mismo archivo al método *new* y *edit*  agrega esta linea
+   ```Ruby
+   5.times { @profile.advances.build}
+   ```
+  
+##Gráfica :chart_with_upwards_trend: :dancer:
+Pintemos el avance en habilidades en forma de gráfica para ello utilizaremos una gema:gem:  [chartkick](http://chartkick.com/)
+
+Para agregar la gema en Gemfile.rb antes de
+```Ruby
+  group :development, :test do
+ ```
+ponemos
+ ```Ruby
+  #gema para la grafica
+   gem "chartkick"
+ ```
+ 
+ Despues de que agreguemos una gema en Gemfile para instalar debemos correr en consola  
+  ```
+  $ bundle install
+ ```
+ para manejar las gemas; sus versiones,ambientes y demas, rails utiliza [bundle](http://bundler.io/)
+ 
+ahora en app/assets/javascripts/aplication.js agregamos
+
+  ```
+//= require chartkick
+
+  ```
+ en app/views/layouts/application.html.erb antes de
+  ```Ruby
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+  ```
+  copiamos
+   ```Ruby
+ <%= javascript_include_tag "//www.google.com/jsapi" %>
+
+  ```
+ 
+ahora vamos a generar la consulta que me pinta la grafica con las instrucciones dadas por la gema, recuerda que rails utiliza un [ORM](http://programarfacil.com/blog/que-es-un-orm/) llamado active record 
+
+en app/views/profiles/index.html.erb  antes de 
+ ```Ruby 
+<% end %>
+  ```
+  copiamos
+  
+  ```
+ <tr>
+  <td style="width:500px;">
+    <%= line_chart  profile.skills.uniq.map { |skill|
+    {name: skill.name, data: skill.advances.where(profile:profile).group(:created_at).sum("percentage") }
+    } %>
+
+  </td>
+ </tr>
+  ```
+## links 
+  
+  en nuestra home page podemos agregar los links que direccionen a los perfiles y habilidades.
+  
+  app/views/welcome/index.html.erb
+   ```
+<%= link_to "Perfiles", profiles_path%>
+<%= link_to "Habilidades", skills_path %>
+
+  ```
+## un poquito de diseño XD
+   en app/assets/stylesheets/scaffold.scss remplaza todo 
+ ```css  
+   body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a {
+      background-color: #76B9CF; /* Green */
+      border: none;
+      color: white !important;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 2px;
+
+  &:visited {
+    color: #008CBA;
+  }
+
+  &:hover {
+    color: #fff;
+    background-color: #008CBA;
+  }
+}
+
+div {
+  &.field, &.actions {
+    margin-bottom: 10px;
+  }
+}
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff;
+  }
+
+  ul li {
+    font-size: 12px;
+    list-style: square;
+  }
+}
+h1 {
+  text-align: center !important;
+  color: rgb(270,50,50);
+}
+```
+  
+en app/views/profiles/index.html.erb reemplacemos la estructura por 
+```
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Profiles</h1>
+
+<%= link_to 'New Profile', new_profile_path %>
+
+<table >
+  <tbody>
+    <% @profiles.each do |profile| %>
+
+      <tr>
+        <td colspan="5"><h2><%= profile.name %></h2></td>
+
+      </tr>
+      <tr>
+        <td colspan="5" style=" width:500px;">
+          <%= line_chart  profile.skills.uniq.map { |skill|
+          {name: skill.name, data: skill.advances.where(profile:profile).group(:created_at).sum("percentage") }
+          } %>
+
+        </td>
+      </tr>
+      <tr>
+        <td><%= link_to 'Show', profile %></td>
+        <td><%= link_to 'Edit', edit_profile_path(profile) %></td>
+        <td><%= link_to 'Destroy', profile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+
+
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+```
 
