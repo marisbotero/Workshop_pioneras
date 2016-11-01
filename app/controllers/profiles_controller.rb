@@ -15,10 +15,12 @@ class ProfilesController < ApplicationController
   # GET /profiles/new
   def new
     @profile = Profile.new
+    5.times { @profile.advances.build}
   end
 
   # GET /profiles/1/edit
   def edit
+    5.times { @profile.advances.build}
   end
 
   # POST /profiles
@@ -69,6 +71,6 @@ class ProfilesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def profile_params
-      params.require(:profile).permit(:name)
+      params.require(:profile).permit(:name, advances_attributes:[ :id, :skill_id, :percentage, :description, :_destroy ])
     end
 end

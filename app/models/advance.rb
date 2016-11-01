@@ -1,4 +1,5 @@
 class Advance < ActiveRecord::Base
-  belongs_to :profile
-  belongs_to :skil
+  #asociaciones
+  belongs_to :profile #el registro de este modelo pertence a un perfil
+  belongs_to :skill #pertence a una habilidad
 end

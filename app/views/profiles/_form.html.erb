@@ -15,6 +15,24 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
+
+  Habilidades:
+  <ul>
+    <%= f.fields_for :advances do |advance_form| %>
+     <li>
+       <%= advance_form.check_box :_destroy%>
+
+       <%= advance_form.label :skill_id  %>
+       <%= advance_form.select :skill_id, Skill.all.collect { |habilidad| [ habilidad.name, habilidad.id ] }, include_blank: true  %>
+
+       <%= advance_form.label :percentage  %>
+       <%= advance_form.text_field :percentage %>
+
+       <%= advance_form.label :description  %>
+       <%= advance_form.text_field :description %>
+     </li>
+    <% end %>
+  </ul>
   <div class="actions">
     <%= f.submit %>
   </div>
