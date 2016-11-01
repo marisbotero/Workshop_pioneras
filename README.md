@@ -55,3 +55,6 @@ get 'Welcome/index'
 por
 ```ruby
 root 'Welcome#index'
+```
+##Scaffolding
+El scaffolding es una técnica que permite crear CRUD, pero en forma mucho más rápida. 
