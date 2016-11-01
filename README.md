@@ -67,4 +67,17 @@ Ahora debemos crear la tabla:
 ```
 $rake db:migrate
 ```
+Creamos de la misma maneras los scaffold para el perfil y las habilidades:
+```
+$rails g scaffold profile name:string
+```
+
+```
+$rails g scaffold skill profile_id:integer skill progress description:text area_id:integer
+```
+Creamos las tablas:
+```
+$rake db:migrate
+```
+
 ##
