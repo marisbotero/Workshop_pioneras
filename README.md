@@ -121,7 +121,7 @@ end
 ##  Recursos de rutas
 Bueno, ahora que ya tenemos una idea de la unión de modelos vamos a seguir con nuestro proyecto, creando las funcionalidades de los modelos.Vamos dentro de nuestro proyecto a config -> routes.rb 
 
-> -resource
+> - resource
 
 Un resource o recurso es una colección predefinida de todas las posibles funciones que por defecto que posee un controlador. Es decir, cuando utilizamos un scaffold para crear un controlador, modelo y vistas relacionadas a un recurso tal como "usuario"; este creará dentro del controlador todas las funciones conocidas como CRUD, y el resource combina y genera todas las rutas necesarias para poder acceder a dichos recursos. 
 
