@@ -132,7 +132,9 @@ Rails.application.routes.draw do
 end
 ```
 Ahora podemos abrir la consola y escribir el siguiente comando:
-
+```
+$rake routes
+```
 
 
 
