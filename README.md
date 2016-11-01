@@ -203,12 +203,13 @@ ponemos
    gem "chartkick"
  ```
  
- Despues de que agreguemos una gema en Gemfile para instalar debemos correr en consola 
- 
+ Despues de que agreguemos una gema en Gemfile para instalar debemos correr en consola  
   ```
   $ bundle install
  ```
-en app/assets/javascripts/aplication.js agregamos
+ para manejar las gemas; sus versiones,ambientes y demas, rails utiliza [bundle](http://bundler.io/)
+ 
+ahora en app/assets/javascripts/aplication.js agregamos
 
   ```
 //= require chartkick
