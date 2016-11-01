@@ -57,4 +57,7 @@ por
 root 'Welcome#index'
 ```
 ##Scaffolding
-El scaffolding es una técnica que permite crear CRUD, pero en forma mucho más rápida. 
+El scaffolding es una técnica que permite crear CRUD, pero en forma mucho más rápida. Abrimos nuestra consola y escribimos: 
+```
+$rails g scaffold
+```
