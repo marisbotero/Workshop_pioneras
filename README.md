@@ -214,23 +214,19 @@ ponemos
   $ bundle install
  ```
  para manejar las gemas; sus versiones,ambientes y demas, rails utiliza [bundle](http://bundler.io/)
- 
+
+#Highcharts
+
+Descargar [highcharts.js ](https://code.highcharts.com/highcharts.js)   en vendor/assets/javascripts.
+
 ahora en app/assets/javascripts/aplication.js agregamos
 
   ```
+//= require highcharts
 //= require chartkick
 
   ```
- en app/views/layouts/application.html.erb antes de
-  ```Ruby
-<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-
-  ```
-  copiamos
-   ```Ruby
- <%= javascript_include_tag "//www.google.com/jsapi" %>
-
-  ```
+ 
  
 ahora vamos a generar la consulta que me pinta la grafica con las instrucciones dadas por la gema, recuerda que rails utiliza un [ORM](http://programarfacil.com/blog/que-es-un-orm/) llamado active record 
 
