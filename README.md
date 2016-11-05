@@ -14,7 +14,7 @@ $ rails new workshop_pioneras
 ```
 $ cd workshop_pioneras
 ```
-Ahora abre la carpeta foodie en tu editor de texto, revisemos algunas de las carpetas de la aplicación de rails
+Ahora abre la carpeta workshop_pioneras en tu editor de texto, revisemos algunas de las carpetas de la aplicación de rails
 
 |Carpeta  | Propósito                                                                                            |
 |---------|------------------------------------------------------------------------------------------------------|
@@ -30,17 +30,21 @@ Ahora abre la carpeta foodie en tu editor de texto, revisemos algunas de las car
 
 Para la landing necesitamos como mínimo un controlador y una vista,Para generarlos ejecuta:
 ```
-$rails generate controller  Welcome index
+$rails generate controller  welcome index
 ```
-Esto crea un controlador llamado * Welcome* con una acción o método llamado *index*  y dentro de la carpeta de vistas una carpeta que se llama * Welcome* con un archivo ``` .html.erb```  llamado *index*  y su ruta de acceso en el archivo ``` routes.rb```
+Esto crea un controlador llamado * welcome* con una acción o método llamado *index*  y dentro de la carpeta de vistas una carpeta que se llama * welcome* con un archivo ``` .html.erb```  llamado *index*  y su ruta de acceso en el archivo ``` routes.rb```, ademas de archivos de testeo y assets-Dieño-
 
-abre la vista que se encuenta en  ``` app/views/welcome/index.html.erb``` y empieza agregar información a la  Welcome page.
+abre la vista que se encuenta en  ``` app/views/welcome/index.html.erb``` y empieza agregar información a la  página de inicio o landign.
 
 ##Aplicación en el navegador
 Levantemos el servidor de rails para empezar a ver la aplicación funcionando, Ejecuta:
 ```
 $rails server
 ```
+para las chicas  que instalaron con [rails dev box](https://github.com/rails/rails-dev-box)  para levantar el servidor ejecutan:
+```
+bin/rails server -b 0.0.0.0
+ ```
 En tu navegador abre  [http://localhost:3000](http://localhost:3000)
 
 En la terminal presiona <kbd>Ctrl</kbd>+<kbd>C</kbd> para detener el servidor
