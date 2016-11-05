@@ -215,7 +215,7 @@ ponemos
  ```
  para manejar las gemas; sus versiones,ambientes y demas, rails utiliza [bundle](http://bundler.io/)
 
-#Highcharts
+###Highcharts
 
 Descargar [highcharts.js ](https://code.highcharts.com/highcharts.js)   en vendor/assets/javascripts.
 
